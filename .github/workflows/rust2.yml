@@ -11,9 +11,7 @@ env:
 
 jobs:
   build:
-    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-
-    if: ${{ !contains(github.event.head_commit.message, '[no linux]') }}
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[no linux]')}}
     runs-on: ubuntu-latest
 
     steps:
@@ -26,9 +24,7 @@ jobs:
       with: 
         path: ./target/x86_64-unknown-linux-musl/release/pumpkin
   build-windows:
-    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    
-    if: ${{ !contains(github.event.head_commit.message, '[no windows]') }}
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[no windows]')}}
     
     runs-on: windows-latest
 
