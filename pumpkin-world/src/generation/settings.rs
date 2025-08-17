@@ -8,7 +8,7 @@ use crate::{block::BlockStateCodec, dimension::Dimension};
 use super::{biome_coords::to_block, height_limit::HeightLimitView, surface::rule::MaterialRule};
 
 pub static GENERATION_SETTINGS: LazyLock<HashMap<GeneratorSetting, GenerationSettings>> =
-    LazyLock::new(|| read_data_from_file!("../../../assets/chunk_gen_settings.json"));
+    LazyLock::new(|| read_data_from_file!("./assets/chunk_gen_settings.json"));
 
 pub fn gen_settings_from_dimension(dimension: &Dimension) -> &GenerationSettings {
     match dimension {
