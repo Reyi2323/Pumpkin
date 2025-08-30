@@ -1,0 +1,39 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[no linux]')}}
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - run: sudo apt-get install musl-tools
+    - run: rustup target add x86_64-unknown-linux-musl
+    - name: Build
+      run: cargo build --release --target x86_64-unknown-linux-musl
+    - uses: actions/upload-artifact@v4.6.1
+      with: 
+        path: ./target/x86_64-unknown-linux-musl/release/pumpkin
+        name: pumpkin-linux
+  build-windows:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[no windows]')}}
+    
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: cargo build --release
+    - uses: actions/upload-artifact@v4.6.1
+      with: 
+        path: ./target/release/pumpkin.exe
+        name: pumpkin-windows
